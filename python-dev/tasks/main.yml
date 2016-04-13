@@ -1,0 +1,41 @@
+---
+    - name: Install python dev
+      apt: pkg=python-dev state=installed update_cache=true
+      
+    - name: Install libatlas-base-dev
+      apt: pkg=libatlas-base-dev state=installed update_cache=true
+      
+    - name: Install gfortran
+      apt: pkg=gfortran state=installed update_cache=true
+      
+    - name: Install PIP
+      apt: pkg=python-pip state=installed update_cache=true
+      
+    - name: "Install python modules: {{ python_modules_to_install }}"
+      sudo: true
+      pip: name={{ item }}
+      with_items: 
+        - numpy
+        - scipy
+        - pyansible
+        
+#create a user directory and a dev subdirectory
+    - name: Create directory for python files
+      file: path=/home/{{ user_name }}/python_files
+        state=directory
+        owner={{ user_name }}
+        group={{ user_name }}
+        mode=755
+       
+    - name: Copy python file over
+      copy: 
+        src={{ python_file }}
+        dest=/home/{{ user_name }}/python_files/{{ python_file }}
+        owner={{ user_name }}
+        group={{ user_name }}
+        mode=777 
+
+    - name: Execute script
+#      sudo: true
+      command: /home/{{ user_name }}/python_files/{{ python_file }}
+#       script:  'sh /home/achilles/python/example.py'  

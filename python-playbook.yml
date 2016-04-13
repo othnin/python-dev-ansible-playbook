@@ -1,0 +1,6 @@
+---
+- hosts: python
+
+
+  roles:
+   - python-dev

@@ -1,0 +1,9 @@
+---
+# vars file for python-dev
+user_name: achilles
+
+python_modules_to_install:
+ - numpy
+ - scipy
+
+python_file: AnsibleServerUptime.py
